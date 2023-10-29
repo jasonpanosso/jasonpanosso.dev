@@ -37,34 +37,36 @@
   });
 </script>
 
-<div
-  class="flex flex-col p-4 bg-background text-foreground font-mono relative
-  h-full"
->
-  {#each commandHistory as history}
-    <div class="flex flex-col justify-start">
-      <div class="flex items-center">
-        <ShellPrompt />
-        <span>{history.command}</span>
+<div class="h-full bg-background p-4 text-foreground font-mono align-middle">
+  <div
+    class="flex p-4 flex-col h-full border-2 border-secondary
+    rounded"
+  >
+    {#each commandHistory as history}
+      <div class="flex flex-col justify-start">
+        <div class="flex items-center">
+          <ShellPrompt />
+          <span>{history.command}</span>
+        </div>
+        {#each history.output as output}
+          <span>{output}</span>
+        {/each}
       </div>
-      {#each history.output as output}
-        <span>{output}</span>
-      {/each}
-    </div>
-  {/each}
+    {/each}
 
-  <div class="flex items-center">
-    <ShellPrompt />
-    <input
-      bind:this={inputElement}
-      type="text"
-      spellcheck="false"
-      bind:value={command}
-      on:keydown={handleInput}
-      on:blur={() => inputElement.focus()}
-      class="bg-background outline-none cursor w-full caret-primary align-middle
-      {isValidCommand ? 'text-primary' : 'text-tertiary'}"
-      style="caret-shape: block;"
-    />
+    <div class="flex items-center">
+      <ShellPrompt />
+      <input
+        bind:this={inputElement}
+        type="text"
+        spellcheck="false"
+        bind:value={command}
+        on:keydown={handleInput}
+        on:blur={() => inputElement.focus()}
+        class="bg-background outline-none w-full caret-primary
+        {isValidCommand ? 'text-primary' : 'text-tertiary'}"
+        style="caret-shape: block;"
+      />
+    </div>
   </div>
 </div>
