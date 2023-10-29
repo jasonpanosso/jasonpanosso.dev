@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Shell from '$lib/Shell.svelte';
+  import Terminal from '$lib/Terminal.svelte';
 </script>
 
-<Shell />
+<Terminal />
