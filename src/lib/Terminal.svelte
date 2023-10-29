@@ -1,35 +1,46 @@
 <script lang="ts">
   import ShellPrompt from '$lib/ShellPrompt.svelte';
   import { COMMANDS, type Command } from '$lib/types';
-  import { commandMap } from '$lib/commands';
   import { onMount } from 'svelte';
+  import {
+    initializeCommandHandlerMap,
+    handleInvalidCommand,
+  } from '$lib/commands';
+  import type { CommandHistoryAction, CommandHistoryItem } from '$lib/types';
 
   let inputElement: HTMLInputElement;
 
   let command = '';
   $: [baseCommand, ...commandArgs] = command.split(' ');
-  $: isValidCommand = COMMANDS.includes(baseCommand as Command);
+  $: isValidCommand = isCommandValid(baseCommand);
 
-  let commandHistory: { command: string; output: string[] }[] = [];
+  let history: CommandHistoryItem[] = [];
+  const commandHandlerMap = initializeCommandHandlerMap();
 
   function handleInput(event: KeyboardEvent) {
+    // TODO: Strategy pattern for keyboard events(enter, ctrl-c, tab, etc)
     if (event.key === 'Enter') {
-      const commandHandler =
-        baseCommand && isValidCommand && baseCommand in commandMap
-          ? commandMap[baseCommand as keyof typeof commandMap]
-          : handleInvalidCommand;
+      const commandHandler = isCommandValid(baseCommand)
+        ? commandHandlerMap[baseCommand]
+        : handleInvalidCommand(baseCommand ?? '');
 
-      const output = commandHandler(commandArgs);
+      const action = commandHandler(commandArgs);
+      updateHistory(action);
 
-      commandHistory = [...commandHistory, { command, output }];
       command = '';
     }
   }
 
-  function handleInvalidCommand(_args: string[]) {
-    return [
-      `Command not found: ${baseCommand}. Enter 'help' for a list of valid commands`,
-    ];
+  function updateHistory(action: CommandHistoryAction) {
+    if (action.type === 'ADD') {
+      history = [...history, action.historyItem];
+    } else if (action.type === 'CLEAR') {
+      history = [];
+    }
+  }
+
+  function isCommandValid(cmd: string | undefined): cmd is Command {
+    return cmd !== undefined && COMMANDS.includes(cmd as Command);
   }
 
   onMount(() => {
@@ -42,7 +53,7 @@
     class="flex p-4 flex-col h-full border-2 border-secondary
     rounded"
   >
-    {#each commandHistory as history}
+    {#each history as history}
       <div class="flex flex-col justify-start">
         <div class="flex items-center">
           <ShellPrompt />

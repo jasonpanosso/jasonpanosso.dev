@@ -6,5 +6,13 @@ export interface ColorPalette {
   foreground: string;
 }
 
-export const COMMANDS = ['help'] as const;
+export const COMMANDS = ['help', 'clear'] as const;
 export type Command = (typeof COMMANDS)[number];
+
+export type CommandHistoryItem = { command: string; output: string[] };
+
+type AddHistoryAction = { type: 'ADD'; historyItem: CommandHistoryItem };
+type ClearHistoryAction = { type: 'CLEAR' };
+
+export type CommandHandler = (args?: string[]) => CommandHistoryAction;
+export type CommandHistoryAction = AddHistoryAction | ClearHistoryAction;
