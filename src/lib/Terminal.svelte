@@ -7,6 +7,7 @@
     handleInvalidCommand,
   } from '$lib/commands';
   import type { CommandHistoryAction, CommandHistoryItem } from '$lib/types';
+  import { blur } from 'svelte/transition';
 
   let inputElement: HTMLInputElement;
 
@@ -48,7 +49,10 @@
   });
 </script>
 
-<div class="h-full bg-background p-4 text-foreground font-mono align-middle">
+<div
+  transition:blur={{ duration: 500 }}
+  class="h-full bg-background p-4 text-foreground font-mono align-middle"
+>
   <div
     class="flex p-4 flex-col h-full border-2 border-secondary
     rounded"
