@@ -1,15 +1,16 @@
 <script lang="ts">
-  import ShellPrompt from '$lib/ShellPrompt.svelte';
-  import { COMMANDS, type Command } from '$lib/types';
-  import { onMount } from 'svelte';
   import {
-    initializeCommandHandlerMap,
     handleInvalidCommand,
+    initializeCommandHandlerMap,
   } from '$lib/commands';
+  import ShellPrompt from './ShellPrompt.svelte';
   import type { CommandHistoryAction, CommandHistoryItem } from '$lib/types';
+  import { COMMANDS, type Command } from '$lib/types';
+  import { afterUpdate, onMount } from 'svelte';
   import { blur } from 'svelte/transition';
 
   let inputElement: HTMLInputElement;
+  let terminalContainer: HTMLDivElement;
 
   let command = '';
   $: [baseCommand, ...commandArgs] = command.split(' ');
@@ -50,14 +51,22 @@
   onMount(() => {
     inputElement.focus();
   });
+
+  afterUpdate(() => {
+    terminalContainer.scrollTop = terminalContainer.scrollHeight;
+  });
 </script>
 
 <div
-  class="col-start-1 col-end-2 row-start-1 row-end-2 h-full bg-background
-  p-4 align-middle font-iosevka text-xl text-foreground"
+  class="col-start-1 col-end-2 row-start-1 row-end-2 h-full overflow-hidden
+  bg-background p-4 align-middle font-iosevka text-xl text-foreground"
   in:blur={{ delay: 300, duration: 500 }}
 >
-  <div class="flex h-full flex-col rounded border-2 border-secondary p-4">
+  <div
+    class="flex h-full flex-col overflow-hidden rounded border-2
+    border-secondary p-4"
+    bind:this={terminalContainer}
+  >
     {#each history as history}
       <div class="flex flex-col justify-start">
         <div class="flex items-center">
