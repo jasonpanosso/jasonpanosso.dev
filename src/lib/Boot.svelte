@@ -4,6 +4,7 @@
   import { BIOS_LOGS, GRUB_LOGS, SYSTEMD_LOGS } from '$lib/boot';
   import { terminalState } from '$lib/terminalStore';
   import { get } from 'svelte/store';
+  import { blur } from 'svelte/transition';
 
   export let bootCompleted = false;
 
@@ -62,7 +63,9 @@
 
 <div
   bind:this={logContainer}
-  class="bg-black text-white h-full p-4 overflow-hidden"
+  out:blur={{ delay: 0, duration: 250 }}
+  class="text-white h-full p-4 overflow-hidden font-unifont col-end-2
+  col-start-1 row-start-1 row-end-2"
 >
   {#each accumulatedLogs as log}
     <p class="whitespace-pre">{log || '\u00A0'}</p>

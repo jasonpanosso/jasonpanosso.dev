@@ -3,10 +3,14 @@
   import Terminal from './Terminal.svelte';
 
   let bootCompleted = false;
+  // testing:
+  // setTimeout(() => (bootCompleted = true), 500);
 </script>
 
-{#if bootCompleted}
-  <Terminal />
-{:else}
-  <Boot bind:bootCompleted />
-{/if}
+<div class="grid h-full">
+  {#if bootCompleted}
+    <Terminal />
+  {:else}
+    <Boot bind:bootCompleted />
+  {/if}
+</div>

@@ -15,8 +15,11 @@
   $: [baseCommand, ...commandArgs] = command.split(' ');
   $: isValidCommand = isCommandValid(baseCommand);
 
-  let history: CommandHistoryItem[] = [];
   const commandHandlerMap = initializeCommandHandlerMap();
+  let history: CommandHistoryItem[] = [];
+
+  // show motd on login
+  updateHistory(commandHandlerMap.motd());
 
   function handleInput(event: KeyboardEvent) {
     // TODO: Strategy pattern for keyboard events(enter, ctrl-c, tab, etc)
@@ -50,13 +53,11 @@
 </script>
 
 <div
-  transition:blur={{ duration: 500 }}
-  class="h-full bg-background p-4 text-foreground font-mono align-middle"
+  class="h-full bg-background p-4 text-foreground align-middle font-iosevka
+  text-xl col-end-2 col-start-1 row-start-1 row-end-2"
+  in:blur={{ delay: 300, duration: 500 }}
 >
-  <div
-    class="flex p-4 flex-col h-full border-2 border-secondary
-    rounded"
-  >
+  <div class="flex p-4 flex-col h-full border-2 border-secondary rounded">
     {#each history as history}
       <div class="flex flex-col justify-start">
         <div class="flex items-center">
