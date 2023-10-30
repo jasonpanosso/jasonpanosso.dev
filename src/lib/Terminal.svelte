@@ -60,7 +60,7 @@
           <span>{history.command}</span>
         </div>
         {#each history.output as output}
-          <span>{output}</span>
+          <span class="whitespace-pre">{output}</span>
         {/each}
       </div>
     {/each}
