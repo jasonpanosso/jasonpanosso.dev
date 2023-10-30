@@ -8,11 +8,11 @@ export function handleInvalidCommand(
   return () => ({
     type: 'ADD',
     historyItem: {
-      command: invalidCommand ?? '',
+      command: invalidCommand,
       output: [
-        `Command not found: ${
-          invalidCommand ?? ''
-        }. Enter 'help' for a list of valid commands`,
+        invalidCommand
+          ? `Command not found: ${invalidCommand}. Enter 'help' for a list of valid commands`
+          : '\n',
       ],
     },
   });
