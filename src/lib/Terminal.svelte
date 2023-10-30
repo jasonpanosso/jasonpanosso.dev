@@ -53,11 +53,11 @@
 </script>
 
 <div
-  class="h-full bg-background p-4 text-foreground align-middle font-iosevka
-  text-xl col-end-2 col-start-1 row-start-1 row-end-2"
+  class="col-start-1 col-end-2 row-start-1 row-end-2 h-full bg-background
+  p-4 align-middle font-iosevka text-xl text-foreground"
   in:blur={{ delay: 300, duration: 500 }}
 >
-  <div class="flex p-4 flex-col h-full border-2 border-secondary rounded">
+  <div class="flex h-full flex-col rounded border-2 border-secondary p-4">
     {#each history as history}
       <div class="flex flex-col justify-start">
         <div class="flex items-center">
@@ -79,7 +79,7 @@
         bind:value={command}
         on:keydown={handleInput}
         on:blur={() => inputElement.focus()}
-        class="bg-background outline-none w-full caret-primary
+        class="w-full bg-background caret-primary outline-none
         {isValidCommand ? 'text-primary' : 'text-tertiary'}"
         style="caret-shape: block;"
       />

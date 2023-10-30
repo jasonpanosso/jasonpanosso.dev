@@ -11,6 +11,6 @@ export function initializeCommandHandlerMap(): Record<Command, CommandHandler> {
     help: helpHandler,
     whoami: whoamiHandler,
     hostname: hostnameHandler,
-    motd: motdHandler
+    motd: motdHandler,
   };
 }

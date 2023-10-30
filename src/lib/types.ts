@@ -6,7 +6,13 @@ export interface ColorPalette {
   foreground: string;
 }
 
-export const COMMANDS = ['help', 'clear', 'whoami', 'hostname', 'motd'] as const;
+export const COMMANDS = [
+  'help',
+  'clear',
+  'whoami',
+  'hostname',
+  'motd',
+] as const;
 export type Command = (typeof COMMANDS)[number];
 
 export type CommandHistoryItem = { command: string; output: string[] };
