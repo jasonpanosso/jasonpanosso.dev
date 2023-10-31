@@ -10,6 +10,7 @@
 
   let command = '';
   $: baseCommand = command.split(' ')[0];
+  addHistoryItem('motd');
 
   function handleInput(event: KeyboardEvent) {
     // TODO: Strategy pattern for keyboard events(enter, ctrl-c, tab, etc)
