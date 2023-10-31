@@ -39,7 +39,7 @@
   async function simulateBootSequence() {
     await appendLogs(BIOS_LOGS, 250, 350, 3000);
     await appendLogs(GRUB_LOGS, 150, 250, 1000);
-    await appendLogs(SYSTEMD_LOGS, 80, 120, 750);
+    await appendLogs(SYSTEMD_LOGS, 80, 120, 500);
     currentLogs = [];
     showLogin = true;
 
@@ -47,7 +47,7 @@
       await simulateTyping(
         'guest',
         (newChar) => (usernameInput += newChar),
-        () => setTimeout(() => (bootCompleted = true), 2000)
+        () => setTimeout(() => (bootCompleted = true), 1500)
       );
     }, 2000);
   }
