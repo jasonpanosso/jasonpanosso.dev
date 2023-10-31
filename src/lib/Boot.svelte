@@ -72,7 +72,7 @@
   bind:this={logContainer}
   out:blur={{ delay: 0, duration: 250 }}
   class="col-start-1 col-end-2 row-start-1 row-end-2 h-full overflow-hidden
-  whitespace-pre p-4 font-unifont text-white"
+  p-4 font-unifont text-xs text-white sm:text-lg md:text-xl"
 >
   {#each currentLogs as log}
     <p>{log || '\u00A0'}</p>
