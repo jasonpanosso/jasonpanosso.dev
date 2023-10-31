@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { afterUpdate } from 'svelte';
-  import { BIOS_LOGS, GRUB_LOGS, SYSTEMD_LOGS } from '$lib/boot';
+  import { BIOS_LOGS, GRUB_LOGS, SYSTEMD_LOGS } from '$lib/bootLogs';
   import simulateTyping from '$lib/utils/simulateTyping';
   import { terminalState } from '$lib/terminalStore';
   import { get } from 'svelte/store';
