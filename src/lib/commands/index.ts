@@ -1,4 +1,4 @@
-export { initializeCommandComponentMap } from './commandComponentMap';
+export { mapCommandToComponent } from './commandComponentMap';
 
 // export function handleInvalidCommand(
 //   invalidCommand: string

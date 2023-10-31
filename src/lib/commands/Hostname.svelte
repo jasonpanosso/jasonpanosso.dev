@@ -2,7 +2,7 @@
   import { terminalState } from '$lib/terminalStore';
   import { get } from 'svelte/store';
 
-  export let args: string[] | undefined;
+  export let command: string;
 
   const state = get(terminalState);
 </script>

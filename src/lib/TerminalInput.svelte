@@ -1,10 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import ShellPrompt from './ShellPrompt.svelte';
+  import { isCommandValid } from '$lib/utils/validateCommand';
 
   export let command: string;
+  export let baseCommand: string | undefined;
   export let onKeydownCallback: (event: KeyboardEvent) => void;
-  export let isValidCommand: boolean;
+
+  $: isValidCommand = isCommandValid(baseCommand ?? '');
 
   let inputElement: HTMLInputElement;
 

@@ -1,38 +1,21 @@
 <script lang="ts">
-  import { initializeCommandComponentMap } from '$lib/commands';
   import ShellPrompt from './ShellPrompt.svelte';
   import { afterUpdate } from 'svelte';
   import { blur } from 'svelte/transition';
   import TerminalInput from './TerminalInput.svelte';
-  import { isCommandValid } from '$lib/utils/validateCommand';
   import { terminalState } from '$lib/terminalStore';
-  import type { CommandHistoryItem } from './types';
+  import { addHistoryItem } from '$lib/utils/addHistoryItem';
 
   let terminalContainer: HTMLDivElement;
 
   let command = '';
-  $: [baseCommand, ...commandArgs] = command.split(' ');
-  $: isValidCommand = isCommandValid(baseCommand);
-
-  const commandComponentMap = initializeCommandComponentMap();
+  $: baseCommand = command.split(' ')[0];
 
   function handleInput(event: KeyboardEvent) {
     // TODO: Strategy pattern for keyboard events(enter, ctrl-c, tab, etc)
     // TODO: args handler
     if (event.key === 'Enter') {
-      if (isCommandValid(baseCommand)) {
-        const component = commandComponentMap[baseCommand];
-        const newItem: CommandHistoryItem = {
-          component,
-          command,
-          args: commandArgs,
-        };
-        terminalState.update((prev) => ({
-          ...prev,
-          commandHistory: [...prev.commandHistory, newItem],
-        }));
-      }
-
+      addHistoryItem(baseCommand ?? '');
       command = '';
     }
   }
@@ -54,18 +37,18 @@
     bind:this={terminalContainer}
   >
     {#each $terminalState.commandHistory as historyItem}
-      <div class="flex flex-col justify-start">
+      <div class="flex flex-col justify-center">
         <ShellPrompt command={historyItem.command} />
         <svelte:component
           this={historyItem.component}
-          args={historyItem.args}
+          command={historyItem.command}
         />
       </div>
     {/each}
 
     <TerminalInput
       bind:command
-      bind:isValidCommand
+      bind:baseCommand
       onKeydownCallback={handleInput}
     />
   </div>

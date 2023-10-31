@@ -17,7 +17,7 @@ export const COMMANDS = [
 ] as const;
 export type Command = (typeof COMMANDS)[number];
 
-type CommandComponentProps = { args: string[] | undefined };
+type CommandComponentProps = { command: string };
 export type CommandComponent = ComponentType<
   SvelteComponent<CommandComponentProps>
 >;
@@ -25,5 +25,4 @@ export type CommandComponent = ComponentType<
 export type CommandHistoryItem = {
   command: string;
   component: CommandComponent;
-  args: string[] | undefined;
 };

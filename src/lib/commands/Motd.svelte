@@ -1,5 +1,7 @@
 <script lang="ts">
-  export let args: string[] | undefined;
+  import ClickableCommand from '$lib/ClickableCommand.svelte';
+
+  export let command: string;
 
   const BANNER = [
     ` _    _      _                          _ `,
@@ -17,5 +19,8 @@
   {/each}
 
   <p>Thanks for visiting my site!</p>
-  <p>Type 'help' to see a list of available commands.</p>
+  <span class="whitespace-normal">
+    Type 'help', or click <ClickableCommand command="help" /> to see a list of available
+    commands.
+  </span>
 </div>
