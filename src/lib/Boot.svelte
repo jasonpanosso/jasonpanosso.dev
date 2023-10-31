@@ -23,7 +23,7 @@
 
   onMount(() => {
     const skipSetupHandler = (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
+      if (event.key) {
         bootCompleted = true;
       }
     };

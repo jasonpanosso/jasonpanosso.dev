@@ -9,7 +9,9 @@
 
   $: baseCommand = command.split(' ')[0];
   $: isValidCommand = isCommandValid(baseCommand ?? '');
-  onMount(() => inputElement.focus());
+
+  // weird fix to not get double input when skipping boot screen
+  onMount(() => setTimeout(() => inputElement.focus(), 100));
 
   function handleKeydown(event: KeyboardEvent) {
     // TODO: Strategy pattern for keyboard events(enter, ctrl-c, tab, etc)

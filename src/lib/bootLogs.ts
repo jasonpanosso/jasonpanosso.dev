@@ -2,7 +2,7 @@ export const BIOS_LOGS = [
   `BIOS Version 1.0.0, Copyleft (C) 1997-2023, Jason Panosso, Inc.`,
   `Memory Test: 16384MB OK`,
   `CPU Intel(R) Core(TM) i9-10900K @ 3.70GHz`,
-  `Press Enter to skip setup, or sit back and relax!`,
+  `Press any key to skip setup, or sit back and relax!`,
 ];
 
 export const GRUB_LOGS = [
