@@ -1,56 +1,41 @@
 <script lang="ts">
-  import {
-    handleInvalidCommand,
-    initializeCommandHandlerMap,
-  } from '$lib/commands';
+  import { initializeCommandComponentMap } from '$lib/commands';
   import ShellPrompt from './ShellPrompt.svelte';
-  import type { CommandHistoryAction, CommandHistoryItem } from '$lib/types';
-  import { COMMANDS, type Command } from '$lib/types';
-  import { afterUpdate, onMount } from 'svelte';
+  import { afterUpdate } from 'svelte';
   import { blur } from 'svelte/transition';
+  import TerminalInput from './TerminalInput.svelte';
+  import { isCommandValid } from '$lib/utils/validateCommand';
+  import { terminalState } from '$lib/terminalStore';
+  import type { CommandHistoryItem } from './types';
 
-  let inputElement: HTMLInputElement;
   let terminalContainer: HTMLDivElement;
 
   let command = '';
   $: [baseCommand, ...commandArgs] = command.split(' ');
   $: isValidCommand = isCommandValid(baseCommand);
 
-  const commandHandlerMap = initializeCommandHandlerMap();
-  let history: CommandHistoryItem[] = [];
-
-  // show motd on login
-  updateHistory(commandHandlerMap.motd());
+  const commandComponentMap = initializeCommandComponentMap();
 
   function handleInput(event: KeyboardEvent) {
     // TODO: Strategy pattern for keyboard events(enter, ctrl-c, tab, etc)
+    // TODO: args handler
     if (event.key === 'Enter') {
-      const commandHandler = isCommandValid(baseCommand)
-        ? commandHandlerMap[baseCommand]
-        : handleInvalidCommand(baseCommand ?? '');
-
-      const action = commandHandler(commandArgs);
-      updateHistory(action);
+      if (isCommandValid(baseCommand)) {
+        const component = commandComponentMap[baseCommand];
+        const newItem: CommandHistoryItem = {
+          component,
+          command,
+          args: commandArgs,
+        };
+        terminalState.update((prev) => ({
+          ...prev,
+          commandHistory: [...prev.commandHistory, newItem],
+        }));
+      }
 
       command = '';
     }
   }
-
-  function updateHistory(action: CommandHistoryAction) {
-    if (action.type === 'ADD') {
-      history = [...history, action.historyItem];
-    } else if (action.type === 'CLEAR') {
-      history = [];
-    }
-  }
-
-  function isCommandValid(cmd: string | undefined): cmd is Command {
-    return cmd !== undefined && COMMANDS.includes(cmd as Command);
-  }
-
-  onMount(() => {
-    inputElement.focus();
-  });
 
   afterUpdate(() => {
     terminalContainer.scrollTop = terminalContainer.scrollHeight;
@@ -59,7 +44,8 @@
 
 <div
   class="col-start-1 col-end-2 row-start-1 row-end-2 h-full overflow-hidden
-  bg-background p-4 align-middle font-iosevka text-xl text-foreground"
+  whitespace-pre bg-background p-4 align-middle font-iosevka text-xl
+  text-foreground"
   in:blur={{ delay: 250, duration: 250 }}
 >
   <div
@@ -67,31 +53,20 @@
     border-secondary p-4"
     bind:this={terminalContainer}
   >
-    {#each history as history}
+    {#each $terminalState.commandHistory as historyItem}
       <div class="flex flex-col justify-start">
-        <div class="flex items-center">
-          <ShellPrompt />
-          <span>{history.command}</span>
-        </div>
-        {#each history.output as output}
-          <span class="whitespace-pre">{output}</span>
-        {/each}
+        <ShellPrompt command={historyItem.command} />
+        <svelte:component
+          this={historyItem.component}
+          args={historyItem.args}
+        />
       </div>
     {/each}
 
-    <div class="flex items-center">
-      <ShellPrompt />
-      <input
-        bind:this={inputElement}
-        type="text"
-        spellcheck="false"
-        bind:value={command}
-        on:keydown={handleInput}
-        on:blur={() => inputElement.focus()}
-        class="w-full bg-background caret-primary outline-none
-        {isValidCommand ? 'text-primary' : 'text-tertiary'}"
-        style="caret-shape: block;"
-      />
-    </div>
+    <TerminalInput
+      bind:command
+      bind:isValidCommand
+      onKeydownCallback={handleInput}
+    />
   </div>
 </div>

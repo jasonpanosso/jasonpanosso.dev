@@ -1,3 +1,5 @@
+import type { ComponentType, SvelteComponent } from 'svelte';
+
 export interface ColorPalette {
   primary: string;
   secondary: string;
@@ -15,10 +17,13 @@ export const COMMANDS = [
 ] as const;
 export type Command = (typeof COMMANDS)[number];
 
-export type CommandHistoryItem = { command: string; output: string[] };
+type CommandComponentProps = { args: string[] | undefined };
+export type CommandComponent = ComponentType<
+  SvelteComponent<CommandComponentProps>
+>;
 
-type AddHistoryAction = { type: 'ADD'; historyItem: CommandHistoryItem };
-type ClearHistoryAction = { type: 'CLEAR' };
-
-export type CommandHandler = (args?: string[]) => CommandHistoryAction;
-export type CommandHistoryAction = AddHistoryAction | ClearHistoryAction;
+export type CommandHistoryItem = {
+  command: string;
+  component: CommandComponent;
+  args: string[] | undefined;
+};

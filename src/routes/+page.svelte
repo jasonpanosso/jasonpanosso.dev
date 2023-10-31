@@ -1,5 +1,16 @@
 <script lang="ts">
-  import App from '$lib/App.svelte';
+  import Boot from '$lib/Boot.svelte';
+  import Terminal from '$lib/Terminal.svelte';
+
+  let bootCompleted = false;
+  // testing:
+  // setTimeout(() => (bootCompleted = true), 500);
 </script>
 
-<App />
+<div class="grid h-full">
+  {#if bootCompleted}
+    <Terminal />
+  {:else}
+    <Boot bind:bootCompleted />
+  {/if}
+</div>
