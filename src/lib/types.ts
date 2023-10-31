@@ -14,6 +14,7 @@ export const COMMANDS = [
   'whoami',
   'hostname',
   'motd',
+  'github',
 ] as const;
 export type Command = (typeof COMMANDS)[number];
 

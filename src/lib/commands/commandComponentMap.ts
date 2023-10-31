@@ -6,6 +6,7 @@ import Hostname from './Hostname.svelte';
 import Motd from './Motd.svelte';
 import InvalidCommand from './InvalidCommand.svelte';
 import EmptyCommand from './EmptyCommand.svelte';
+import Github from './Github.svelte';
 import { isCommandValid } from '$lib/utils/validateCommand';
 
 const commandComponentMap: Record<Command, CommandComponent> = {
@@ -14,6 +15,7 @@ const commandComponentMap: Record<Command, CommandComponent> = {
   whoami: Whoami,
   hostname: Hostname,
   motd: Motd,
+  github: Github,
 };
 
 export function mapCommandToComponent(baseCommand: string): CommandComponent {
