@@ -2,8 +2,7 @@ export const BIOS_LOGS = [
   `BIOS Version 1.0.0, Copyleft (C) 1997-2023, Jason Panosso, Inc.`,
   `Memory Test: 16384MB OK`,
   `CPU Intel(R) Core(TM) i9-10900K @ 3.70GHz`,
-  `Press F2 to enter setup, F12 for boot menu`,
-  `\n`,
+  `Press Enter to skip setup, or sit back and relax!`,
 ];
 
 export const GRUB_LOGS = [
@@ -13,7 +12,6 @@ export const GRUB_LOGS = [
   `\n`,
   `Loading Linux 5.12.0-1-amd64 ...`,
   `Loading initial ramdisk ...`,
-  `\n`,
 ];
 
 export const SYSTEMD_LOGS = [

@@ -60,7 +60,7 @@
 <div
   class="col-start-1 col-end-2 row-start-1 row-end-2 h-full overflow-hidden
   bg-background p-4 align-middle font-iosevka text-xl text-foreground"
-  in:blur={{ delay: 300, duration: 500 }}
+  in:blur={{ delay: 250, duration: 250 }}
 >
   <div
     class="flex h-full flex-col overflow-hidden rounded border-2

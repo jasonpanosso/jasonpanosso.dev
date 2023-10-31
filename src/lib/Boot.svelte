@@ -2,69 +2,69 @@
   import { onMount } from 'svelte';
   import { afterUpdate } from 'svelte';
   import { BIOS_LOGS, GRUB_LOGS, SYSTEMD_LOGS } from '$lib/boot';
+  import simulateTyping from '$lib/utils/simulateTyping';
   import { terminalState } from '$lib/terminalStore';
   import { get } from 'svelte/store';
   import { blur } from 'svelte/transition';
 
   export let bootCompleted = false;
 
-  let autoTypeText = 'guest';
-  let autoTypeIndex = 0;
+  const { hostname } = get(terminalState);
+
+  let currentLogs: string[] = [];
   let showLogin = false;
+
   $: usernameInput = '';
 
   let logContainer: HTMLElement;
-  let accumulatedLogs: string[] = [];
-
-  const { hostname } = get(terminalState);
-
-  $: if (showLogin) {
-    setTimeout(async () => {
-      await simulateTyping();
-    }, 3000);
-  }
-
-  onMount(async () => {
-    await appendLogs(BIOS_LOGS, 250, 350)
-      .then(() => {
-        return appendLogs(GRUB_LOGS, 150, 250);
-      })
-      .then(() => {
-        return appendLogs(SYSTEMD_LOGS, 80, 120);
-      })
-      .then(() => {
-        showLogin = true;
-      });
-  });
-
   afterUpdate(() => {
     logContainer.scrollTop = logContainer.scrollHeight;
   });
 
+  onMount(() => {
+    const skipSetupHandler = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        bootCompleted = true;
+      }
+    };
+    window.addEventListener('keydown', skipSetupHandler);
+
+    void simulateBootSequence();
+
+    return () => {
+      window.removeEventListener('keydown', skipSetupHandler);
+    };
+  });
+
+  async function simulateBootSequence() {
+    await appendLogs(BIOS_LOGS, 250, 350, 3000);
+    await appendLogs(GRUB_LOGS, 150, 250, 1000);
+    await appendLogs(SYSTEMD_LOGS, 80, 120, 750);
+    currentLogs = [];
+    showLogin = true;
+
+    setTimeout(async () => {
+      await simulateTyping(
+        'guest',
+        (newChar) => (usernameInput += newChar),
+        () => setTimeout(() => (bootCompleted = true), 2000)
+      );
+    }, 2000);
+  }
+
   async function appendLogs(
     newLogs: string[],
     minDelay: number,
-    maxDelay: number
+    maxDelay: number,
+    waitTime: number
   ) {
     for (const log of newLogs) {
-      accumulatedLogs = [...accumulatedLogs, log];
+      currentLogs = [...currentLogs, log];
       const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay;
       await new Promise((resolve) => setTimeout(resolve, randomDelay));
     }
-  }
-
-  async function simulateTyping() {
-    for (let i = autoTypeIndex; i < autoTypeText.length; i++) {
-      await new Promise((resolve) => {
-        const randomDelay = Math.floor(Math.random() * (150 - 50 + 1)) + 300;
-        setTimeout(() => {
-          usernameInput += autoTypeText[i];
-          resolve(null);
-        }, randomDelay);
-      });
-    }
-    // TODO: Stay automatic, or put a little "ENTER" button?
-    setTimeout(() => (bootCompleted = true), 1500);
+    await new Promise((resolve) => setTimeout(resolve, waitTime));
+    currentLogs = [];
   }
 </script>
 
@@ -74,7 +74,7 @@
   class="col-start-1 col-end-2 row-start-1 row-end-2 h-full overflow-hidden
   whitespace-pre p-4 font-unifont text-white"
 >
-  {#each accumulatedLogs as log}
+  {#each currentLogs as log}
     <p>{log || '\u00A0'}</p>
   {/each}
   {#if showLogin}
