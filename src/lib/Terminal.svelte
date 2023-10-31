@@ -8,18 +8,7 @@
 
   let terminalContainer: HTMLDivElement;
 
-  let command = '';
-  $: baseCommand = command.split(' ')[0];
   addHistoryItem('motd');
-
-  function handleInput(event: KeyboardEvent) {
-    // TODO: Strategy pattern for keyboard events(enter, ctrl-c, tab, etc)
-    // TODO: args handler
-    if (event.key === 'Enter') {
-      addHistoryItem(baseCommand ?? '');
-      command = '';
-    }
-  }
 
   afterUpdate(() => {
     terminalContainer.scrollTop = terminalContainer.scrollHeight;
@@ -47,10 +36,6 @@
       </div>
     {/each}
 
-    <TerminalInput
-      bind:command
-      bind:baseCommand
-      onKeydownCallback={handleInput}
-    />
+    <TerminalInput />
   </div>
 </div>
