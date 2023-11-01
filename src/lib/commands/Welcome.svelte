@@ -1,8 +1,6 @@
 <script lang="ts">
   import ClickableCommand from '$lib/ClickableCommand.svelte';
 
-  export let command: string;
-
   const BANNER = [
     ` _    _      _                          _ `,
     `| |  | |    | |                        | |`,
@@ -13,14 +11,19 @@
   ];
 </script>
 
-<div class="flex flex-col">
-  {#each BANNER as line}
-    <p class="whitespace-pre text-sm">{line}</p>
-  {/each}
+<div class="flex flex-col gap-1">
+  <div>
+    {#each BANNER as line}
+      <p class="whitespace-pre text-xs sm:text-sm md:text-base">{line}</p>
+    {/each}
+  </div>
 
-  <p>Thanks for visiting my site!</p>
-  <span>
-    Type, or click <ClickableCommand command="help" /> to see a list of available
-    commands.
-  </span>
+  <p>Hi there! I'm Jason Panosso.</p>
+
+  <p>Feel free to poke around to learn a bit about me.</p>
+
+  <p>
+    You can type, or click <ClickableCommand command="help" />
+    to see a list of available commands.
+  </p>
 </div>
