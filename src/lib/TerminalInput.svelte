@@ -4,12 +4,20 @@
   import { resetInput, terminalState } from './terminalStore';
   import { isCommandValid } from '$lib/utils/validateCommand';
   import { addHistoryItem } from '$lib/utils/addHistoryItem';
+  import { simulateUserInput } from './utils/simulateInput';
 
   $: baseCommand = $terminalState.inputCommand.split(' ')[0];
   $: isValidCommand = isCommandValid(baseCommand ?? '');
 
-  // weird fix to not get double input when skipping boot screen
-  onMount(() => setTimeout(() => focusInput(), 100));
+  onMount(() => {
+    $terminalState.inputElement!.disabled = true;
+    setTimeout(async () => {
+      await simulateUserInput('welcome');
+
+      $terminalState.inputElement!.disabled = false;
+      focusInput();
+    }, 1000);
+  });
 
   function handleKeydown(event: KeyboardEvent) {
     // TODO: Strategy pattern for keyboard events(enter, ctrl-c, tab, etc)

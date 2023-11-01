@@ -1,18 +1,15 @@
 <script lang="ts">
   import ShellPrompt from './ShellPrompt.svelte';
-  import { afterUpdate, onMount } from 'svelte';
+  import { afterUpdate } from 'svelte';
   import { blur } from 'svelte/transition';
   import TerminalInput from './TerminalInput.svelte';
   import { terminalState } from '$lib/terminalStore';
-  import { simulateUserInput } from './utils/simulateInput';
 
   let terminalContainer: HTMLDivElement;
 
   afterUpdate(() => {
     terminalContainer.scrollTop = terminalContainer.scrollHeight;
   });
-
-  onMount(() => setTimeout(() => simulateUserInput('motd'), 1000));
 </script>
 
 <div

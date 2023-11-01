@@ -20,7 +20,7 @@ export async function simulateTyping(
 
 export async function simulateUserInput(command: string) {
   const inputElement = get(terminalState).inputElement;
-  if (!inputElement || inputElement.readOnly || inputElement.disabled) {
+  if (!inputElement || inputElement.readOnly) {
     return;
   }
 
