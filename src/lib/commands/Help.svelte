@@ -7,7 +7,7 @@
   To enter a command, either click, or type one of the commands listed below.
   <div>
     <p>About me:</p>
-    <div class="flex gap-2">
+    <div class="flex flex-wrap gap-2">
       <ClickableCommand command="whoami" />
       <ClickableCommand command="email" />
       <ClickableCommand command="github" />
@@ -16,7 +16,7 @@
 
   <div>
     <p>All available commands:</p>
-    <div class="flex gap-2">
+    <div class="flex flex-wrap gap-2">
       {#each COMMANDS as availableCommand}
         <ClickableCommand command={availableCommand} />
       {/each}
