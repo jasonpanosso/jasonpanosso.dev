@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import type { CommandHistoryItem } from '$lib/types';
 
 export type TerminalState = {
@@ -26,4 +26,8 @@ export function resetInput() {
     ...prev,
     inputCommand: '',
   }));
+}
+
+export function focusInput() {
+  get(terminalState).inputElement!.focus();
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import ShellPrompt from './ShellPrompt.svelte';
-  import { resetInput, terminalState } from './terminalStore';
+  import { focusInput, resetInput, terminalState } from './terminalStore';
   import { isCommandValid } from '$lib/utils/validateCommand';
   import { addHistoryItem } from '$lib/utils/addHistoryItem';
   import { simulateUserInput } from './utils/simulateInput';
@@ -16,7 +16,7 @@
 
       $terminalState.inputElement!.disabled = false;
       focusInput();
-    }, 1000);
+    }, 1500);
   });
 
   function handleKeydown(event: KeyboardEvent) {
@@ -26,10 +26,6 @@
       addHistoryItem(baseCommand ?? '');
       resetInput();
     }
-  }
-
-  function focusInput() {
-    $terminalState.inputElement?.focus();
   }
 </script>
 
@@ -41,7 +37,6 @@
     type="text"
     spellcheck="false"
     on:keydown={handleKeydown}
-    on:blur={focusInput}
     class="w-full bg-background caret-primary outline-none
         {isValidCommand ? 'text-primary' : 'text-tertiary'}"
     style="caret-shape: block;"
