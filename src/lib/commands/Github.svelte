@@ -1,13 +1,14 @@
 <script lang="ts">
   import GitHubIcon from '$lib/assets/svgs/GitHubIcon.svelte';
-  export let command: string;
 </script>
 
 <a
-  class="flex w-fit gap-2 align-middle underline"
+  class="flex w-fit gap-2 align-middle"
   href="https://github.com/jasonpanosso"
   target="_blank"
 >
   <GitHubIcon />
-  GitHub
+  <span class="underline hover:text-blue-500 hover:decoration-blue-500">
+    https://github.com/jasonpanosso
+  </span>
 </a>

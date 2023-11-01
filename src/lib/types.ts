@@ -1,4 +1,4 @@
-import type { ComponentType, SvelteComponent } from 'svelte';
+import type { ComponentType } from 'svelte';
 
 export interface ColorPalette {
   primary: string;
@@ -13,15 +13,13 @@ export const COMMANDS = [
   'clear',
   'whoami',
   'hostname',
-  'motd',
   'github',
+  'welcome',
+  'email',
 ] as const;
 export type Command = (typeof COMMANDS)[number];
 
-type CommandComponentProps = { command: string };
-export type CommandComponent = ComponentType<
-  SvelteComponent<CommandComponentProps>
->;
+export type CommandComponent = ComponentType;
 
 export type CommandHistoryItem = {
   command: string;
