@@ -4,7 +4,7 @@
 </script>
 
 <a
-  class="flex gap-2 whitespace-normal align-middle underline w-fit"
+  class="flex w-fit gap-2 align-middle underline"
   href="https://github.com/jasonpanosso"
   target="_blank"
 >

@@ -15,12 +15,12 @@
 
 <div class="flex flex-col">
   {#each BANNER as line}
-    <p>{line}</p>
+    <p class="whitespace-pre text-sm">{line}</p>
   {/each}
 
   <p>Thanks for visiting my site!</p>
-  <span class="whitespace-normal">
-    Type 'help', or click <ClickableCommand command="help" /> to see a list of available
+  <span>
+    Type, or click <ClickableCommand command="help" /> to see a list of available
     commands.
   </span>
 </div>
