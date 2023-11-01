@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { afterUpdate } from 'svelte';
   import { BIOS_LOGS, GRUB_LOGS, SYSTEMD_LOGS } from '$lib/bootLogs';
-  import simulateTyping from '$lib/utils/simulateTyping';
+  import { simulateTyping } from '$lib/utils/simulateInput';
   import { terminalState } from '$lib/terminalStore';
   import { get } from 'svelte/store';
   import { blur } from 'svelte/transition';
@@ -46,9 +46,8 @@
     setTimeout(async () => {
       await simulateTyping(
         'guest',
-        (newChar) => (usernameInput += newChar),
-        () => setTimeout(() => (bootCompleted = true), 1500)
-      );
+        (newChar) => (usernameInput += newChar)
+      ).then(() => setTimeout(() => (bootCompleted = true), 1500));
     }, 2000);
   }
 
