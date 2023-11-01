@@ -1,3 +1,3 @@
-# terminal "emulator"
+# My personal site
 
-WIP bash-like emulator for my [personal site](jasonpanosso.dev)
+WIP [personal site](jasonpanosso.dev) in a bash-like "emulator"

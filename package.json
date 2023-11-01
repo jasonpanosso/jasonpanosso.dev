@@ -1,7 +1,6 @@
 {
-  "name": "jasonpanosso.dev-terminal",
-  "version": "0.0.1",
-  "private": true,
+  "name": "jasonpanosso.dev",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
