@@ -16,6 +16,7 @@ export const COMMANDS = [
   'github',
   'welcome',
   'email',
+  'repo',
 ] as const;
 export type Command = (typeof COMMANDS)[number];
 

@@ -8,6 +8,7 @@ import EmptyCommand from './EmptyCommand.svelte';
 import Github from './Github.svelte';
 import Welcome from './Welcome.svelte';
 import Email from './Email.svelte';
+import Repo from './Repo.svelte';
 import { isCommandValid } from '$lib/utils/validateCommand';
 
 const commandComponentMap: Record<Command, CommandComponent> = {
@@ -18,6 +19,7 @@ const commandComponentMap: Record<Command, CommandComponent> = {
   github: Github,
   welcome: Welcome,
   email: Email,
+  repo: Repo,
 };
 
 export function mapCommandToComponent(baseCommand: string): CommandComponent {
