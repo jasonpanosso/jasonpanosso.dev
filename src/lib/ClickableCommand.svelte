@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { simulateUserInput } from './utils/simulateInput';
+  import { simulateUserInput } from '$lib/utils';
 
   export let command: string;
 

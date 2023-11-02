@@ -9,7 +9,7 @@ import Github from './Github.svelte';
 import Welcome from './Welcome.svelte';
 import Email from './Email.svelte';
 import Repo from './Repo.svelte';
-import { isCommandValid } from '$lib/utils/validateCommand';
+import { isCommandValid } from '$lib/utils';
 
 const commandComponentMap: Record<Command, CommandComponent> = {
   clear: Clear,

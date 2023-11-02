@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { simulateTyping } from '$lib/utils/simulateInput';
+  import { simulateTyping } from '$lib/utils';
   import { blur } from 'svelte/transition';
 
   export let bootCompleted = false;
