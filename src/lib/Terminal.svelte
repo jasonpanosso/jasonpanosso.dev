@@ -2,6 +2,7 @@
   import ShellPrompt from '$lib/ShellPrompt.svelte';
   import TerminalInput from '$lib/TerminalInput.svelte';
   import ScrollToBottom from '$lib/ScrollToBottom.svelte';
+  import HamburgerMenu from '$lib/HamburgerMenu.svelte';
   import { throttle } from '$lib/utils';
   import { blur } from 'svelte/transition';
   import { focusInput, terminalState } from '$lib/terminalStore';
@@ -15,10 +16,6 @@
     // cursed, this has to fire after reactivity updates finish in order to
     // scroll down correctly. More set timeout!! :-) :-)
     setTimeout(() => scrollContainerToBottom());
-  }
-
-  $: {
-    console.log(hideScrollButton);
   }
 
   function updateScrollButtonVisibility() {
@@ -69,6 +66,8 @@
     onClick={scrollContainerToBottom}
     bind:hidden={hideScrollButton}
   />
+
+  <HamburgerMenu />
 </div>
 
 <style>
