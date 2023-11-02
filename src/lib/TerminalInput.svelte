@@ -1,10 +1,14 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import ShellPrompt from './ShellPrompt.svelte';
-  import { focusInput, resetInput, terminalState } from './terminalStore';
-  import { isCommandValid } from '$lib/utils/validateCommand';
-  import { addHistoryItem } from '$lib/utils/addHistoryItem';
-  import { simulateUserInput } from './utils/simulateInput';
+  import { focusInput, resetInput, terminalState } from '$lib/terminalStore';
+  import {
+    isCommandValid,
+    addHistoryItem,
+    simulateUserInput,
+  } from '$lib/utils';
+
+  export let inputCallback: () => void;
 
   $: baseCommand = $terminalState.inputCommand.split(' ')[0];
   $: isValidCommand = isCommandValid(baseCommand ?? '');
@@ -26,6 +30,7 @@
       addHistoryItem(baseCommand ?? '');
       resetInput();
     }
+    setTimeout(() => inputCallback());
   }
 </script>
 
